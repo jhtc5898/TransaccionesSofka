@@ -1,0 +1,87 @@
+version: '3.3'
+
+volumes:
+  postgres_data:
+    driver: local
+
+services:
+  postgres:
+    image: postgres
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./sql/init.sql:/docker-entrypoint-initdb.d/init.sql
+    environment:
+      POSTGRES_DB: sofka
+      POSTGRES_USER: usuario
+      POSTGRES_PASSWORD: password
+    ports:
+      - 5432:5432
+
+  eureka-server:
+    container_name: eureka-server
+    build:
+      context: ./Movimientos_Eureka/configDocker
+      dockerfile: Dockerfile
+    restart: always
+    volumes:
+      - ./Movimientos_Eureka/configDocker/config:/tmp/config/:ro
+    ports:
+      - 8761:8761
+    depends_on:
+      - postgres
+  sofka-transaccion:
+    container_name: sofka-transaccion
+    build:
+      context: ./Movimientos_Transaccion/configDocker
+      dockerfile: Dockerfile
+    restart: always
+    volumes:
+      - ./Movimientos_Transaccion/configDocker/config:/tmp/config/:ro
+    ports:
+      - 8110:8188
+    depends_on:
+      - postgres
+      - eureka-server
+
+  sofka-cliente:
+    container_name: sofka-cliente
+    build:
+      context: ./Movimientos_Cliente/configDocker
+      dockerfile: Dockerfile
+    restart: always
+    volumes:
+      - ./Movimientos_Cliente/configDocker/config:/tmp/config/:ro
+    ports:
+      - 8120:8184
+    depends_on:
+      - postgres
+      - eureka-server
+
+  sofka-cliente2:
+    container_name: sofka-cliente2
+    build:
+      context: ./Movimientos_Cliente/configDocker
+      dockerfile: Dockerfile
+    restart: always
+    volumes:
+      - ./Movimientos_Cliente/configDocker/config:/tmp/config/:ro
+    ports:
+      - 8130:8184
+    depends_on:
+      - postgres
+      - eureka-server
+  
+
+  orquestador-server:
+    container_name: orquestador-server
+    build:
+      context: ./Orquestador/configDocker
+      dockerfile: Dockerfile
+    restart: always
+    volumes:
+      - ./Orquestador/configDocker/config:/tmp/config/:ro
+    ports:
+      - 8080:8080
+    depends_on:
+      - postgres
+      - eureka-server

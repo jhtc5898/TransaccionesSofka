@@ -1,0 +1,33 @@
+version: '3.3'
+
+
+volumes:
+  postgres_data:
+    driver: local
+
+services:
+  postgres:
+    image: postgres
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./sql/init.sql:/docker-entrypoint-initdb.d/init.sql
+    environment:
+      POSTGRES_DB: sofka
+      POSTGRES_USER: usuario
+      POSTGRES_PASSWORD: password
+    ports:
+      - 5432:5432
+#  nttdata-reportes:
+#    container_name: reportes-server
+#    build:
+#      context: configDocker
+#      dockerfile: Dockerfile
+#    restart: always
+#    volumes:
+#      - ./configDocker/config:/tmp/config/:ro
+#    ports:
+#      - 8109:8184
+#    depends_on:
+#      - postgres
+
+
