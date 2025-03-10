@@ -12,7 +12,7 @@ Esto iniciará todos los servicios definidos en el archivo docker-compose.yml.<b
 <br>
 Ver las conexxiones del eureka con :<br>
 <code>
-[docker-compose up](http://localhost:8761/)
+http://localhost:8761/
 </code>
 
 📌 Consulta de Información<br>
