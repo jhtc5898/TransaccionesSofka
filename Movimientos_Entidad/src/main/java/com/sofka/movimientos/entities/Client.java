@@ -12,7 +12,7 @@ import java.util.UUID;
 @Entity
 @Data
 @Table(name = "mov_tclient")
-@JsonIgnoreProperties({"password", "status"}) // Agrega todos los campos que deseas ignorar
+@JsonIgnoreProperties({"password"})
 public class Client extends Person implements Serializable {
 
     private static final long serialVersionUUID = 1L;

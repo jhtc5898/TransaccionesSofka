@@ -54,12 +54,20 @@ public class MovementsImpl implements MovementsService{
             response.setMessage("Account not found");
             return response;
         }
+        if(!account.getStatus()){
+            response.setMessage("Account is inactive");
+            return response;
+        }
 
         //Ultimo movimiento realizado
         Movements movements = movementsRepository.findTopByMovementtypeAndAccount_IdaccountOrderByMovementdateDesc(movementsDTO.getMovementtype(), account.getIdaccount());
 
         if (movements == null) {
             response.setMessage("No movements found");
+            return response;
+        }
+        if (!movements.getStatus()) {
+            response.setMessage("The account is inactive");
             return response;
         }
 

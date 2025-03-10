@@ -44,6 +44,7 @@ public class Movements {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "idaccount", referencedColumnName = "idaccount" , nullable = false)
+    @JsonIgnore
     private Account account;
 
 
