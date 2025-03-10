@@ -10,6 +10,11 @@ docker-compose up
 </code>
 Esto iniciará todos los servicios definidos en el archivo docker-compose.yml.<br>
 <br>
+Ver las conexxiones del eureka con :<br>
+<code>
+[docker-compose up](http://localhost:8761/)
+</code>
+
 📌 Consulta de Información<br>
 Puedes probar los endpoints utilizando la colección de Postman disponible en el siguiente enlace:<br>
 https://documenter.getpostman.com/view/13910567/2sAYdoGTRa
