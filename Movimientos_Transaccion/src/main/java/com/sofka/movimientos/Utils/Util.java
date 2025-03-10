@@ -1,5 +1,6 @@
 package com.sofka.movimientos.Utils;
 
+import java.math.BigDecimal;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -41,5 +42,9 @@ public class Util {
         calendar.set(Calendar.MILLISECOND, 999);
 
         return calendar.getTime();
+    }
+
+    public static BigDecimal controlValueZero(BigDecimal value) {
+        return value == null ? BigDecimal.ZERO : value;
     }
 }

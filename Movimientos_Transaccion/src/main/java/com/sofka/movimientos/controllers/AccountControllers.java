@@ -11,6 +11,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.math.BigDecimal;
 
 import static com.sofka.movimientos.Utils.Constants.CODE_ERROR_INTERNAL;
 
@@ -29,6 +30,12 @@ public class AccountControllers {
     public @ResponseBody
     ResponseEntity<Object> createAccount(@Valid @RequestBody() MovementsDTO.createAccount accountDTO) {
         try {
+            if (accountDTO.getInitialbalance().compareTo(BigDecimal.ZERO) < 0) {
+                ResponseData responseData = new ResponseData();
+                responseData.setMessage("The movement value >= 0");
+                return ResponseEntity.badRequest().body(responseData);
+            }
+
             return ResponseEntity.ok().body(accountService.createAccount(accountDTO));
         } catch (Exception e) {
             ErrorRequest errorRequest = new ErrorRequest(e.getCause().getCause().getMessage(), CODE_ERROR_INTERNAL, e.getCause());
