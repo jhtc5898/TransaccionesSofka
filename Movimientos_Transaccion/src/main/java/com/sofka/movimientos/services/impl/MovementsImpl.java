@@ -137,7 +137,6 @@ public class MovementsImpl implements MovementsService {
                 reportMovementResponse.setBalance(movements1.getBalance());
                 reportMovementResponses.add(reportMovementResponse);
             });
-
             mapMovements.put(account1.getAccountnumber(), reportMovementResponses);
         });
         mapClient.put(client.getName()+"-"+client.getIdentificationCard(), mapMovements);

@@ -1,5 +1,6 @@
 package com.sofka.movimientos.controllers;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.sofka.movimientos.dto.ClientDTO;
 import com.sofka.movimientos.services.ClientService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -22,7 +23,7 @@ public class ClientControllers {
     @Operation(summary = "Creating new client")
     @PostMapping
     public @ResponseBody
-    ResponseEntity<Object> createClient(@Valid @RequestBody() ClientDTO.createClient clientDTO) {
+    ResponseEntity<Object> createClient(@Valid @RequestBody() ClientDTO.createClient clientDTO) throws JsonProcessingException {
             return ResponseEntity.ok().body(clientService.createClient(clientDTO));
     }
 

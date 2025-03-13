@@ -3,6 +3,8 @@ version: '3.3'
 volumes:
   postgres_data:
     driver: local
+  postgres_data_transaccion:
+    driver: local
 
 services:
   postgres:
@@ -16,6 +18,18 @@ services:
       POSTGRES_PASSWORD: password
     ports:
       - 5432:5432
+  
+  postgrestransaccion:
+    image: postgres
+    volumes:
+      - postgres_data_transaccion:/var/lib/postgresql/data
+      - ./sql/init.sql:/docker-entrypoint-initdb.d/init.sql
+    environment:
+      POSTGRES_DB: sofka
+      POSTGRES_USER: usuario
+      POSTGRES_PASSWORD: password
+    ports:
+      - 5433:5432
 
   eureka-server:
     container_name: eureka-server
@@ -57,21 +71,6 @@ services:
       - postgres
       - eureka-server
 
-  sofka-cliente2:
-    container_name: sofka-cliente2
-    build:
-      context: ./Movimientos_Cliente/configDocker
-      dockerfile: Dockerfile
-    restart: always
-    volumes:
-      - ./Movimientos_Cliente/configDocker/config:/tmp/config/:ro
-    ports:
-      - 8130:8184
-    depends_on:
-      - postgres
-      - eureka-server
-  
-
   orquestador-server:
     container_name: orquestador-server
     build:
@@ -85,3 +84,21 @@ services:
     depends_on:
       - postgres
       - eureka-server
+
+  zookeeper:
+    image: wurstmeister/zookeeper
+    container_name: zookeeper
+    ports:
+      - "2181:2181"
+
+  kafka:
+    image: wurstmeister/kafka
+    container_name: kafka
+    ports:
+      - "9092:9092"
+    environment:
+      KAFKA_LISTENERS: PLAINTEXT://0.0.0.0:9092
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://kafka:9092
+      KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
+    depends_on:
+      - zookeeper

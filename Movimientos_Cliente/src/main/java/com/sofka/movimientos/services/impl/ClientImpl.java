@@ -1,8 +1,12 @@
 package com.sofka.movimientos.services.impl;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.sofka.movimientos.Utils.ResponseData;
 import com.sofka.movimientos.dto.ClientDTO;
+import com.sofka.movimientos.dto.ClientKafkaDTO;
 import com.sofka.movimientos.entities.Client;
+import com.sofka.movimientos.producer.KafkaProducerService;
 import com.sofka.movimientos.repositories.ClientRepository;
 import com.sofka.movimientos.services.ClientService;
 import lombok.extern.slf4j.Slf4j;
@@ -23,15 +27,18 @@ import static com.sofka.movimientos.Utils.Constants.*;
 public class ClientImpl implements ClientService {
 
 
+    private final ObjectMapper objectMapper = new ObjectMapper();
 
     @Autowired
-    ClientRepository clientRepository;
-    @Autowired
     private PasswordEncoder passwordEncoder;
+    @Autowired
+    private ClientRepository clientRepository;
+    @Autowired
+    private KafkaProducerService kafkaProducer;
 
     @Override
     @Transactional
-    public ResponseData  createClient(ClientDTO.createClient clientDTO) {
+    public ResponseData createClient(ClientDTO.createClient clientDTO) throws JsonProcessingException {
        ResponseData response = new ResponseData();
         Map<String, Object> data = new HashMap<>();
         log.debug("Service to save a client : {}", clientDTO);
@@ -56,6 +63,14 @@ public class ClientImpl implements ClientService {
 
 
         data.put(SAVE_CLIENT, client);
+
+        System.out.println("Cliente creado: " + client);
+        ClientKafkaDTO clientKafka = new ClientKafkaDTO(client.getIdClient(), client.getName(), client.getGender(), client.getAge(), client.getIdentificationCard(), client.getDirection(), client.getPhone(), true);
+
+        String mensaje = objectMapper.writeValueAsString(clientKafka);
+
+
+        kafkaProducer.enviarCliente(mensaje);
         response.setMessage("Client created successfully");
         response.setData(data);
         return response;

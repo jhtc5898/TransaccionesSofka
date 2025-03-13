@@ -2,8 +2,6 @@ package com.sofka.movimientos.client;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.sofka.movimientos.dto.ClientDTO;
-import com.sofka.movimientos.entities.Client;
-import com.sofka.movimientos.repositories.ClientRepository;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -29,29 +27,29 @@ public class ClientIntegrationTest {
     private ObjectMapper objectMapper;
 
     //TEST BAJO DEPENDENCIA DE CREACION
-//    @Test
-//    void shouldCreateClient() throws Exception {
-//
-//        ClientDTO.createClient newClient = new ClientDTO.createClient();
-//        newClient.setIdentificationCard("1234567890");
-//        newClient.setName("John Doe");
-//        newClient.setGender("M");
-//        newClient.setAge(30L);
-//        newClient.setDirection("123 Main St");
-//        newClient.setPhone("555-1234");
-//        newClient.setPassword("password123");
-//
-//
-//        String jsonClient = objectMapper.writeValueAsString(newClient);
-//
-//
-//        mockMvc.perform(post("/client")
-//                        .contentType(MediaType.APPLICATION_JSON)
-//                        .content(jsonClient))
-//                .andExpect(status().isOk())
-//                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
-//                .andExpect(content().string(org.hamcrest.Matchers.containsString("idClient")));
-//    }
+    @Test
+    void shouldCreateClient() throws Exception {
+
+        ClientDTO.createClient newClient = new ClientDTO.createClient();
+        newClient.setIdentificationCard("1234567890");
+        newClient.setName("John Doe");
+        newClient.setGender("M");
+        newClient.setAge(30L);
+        newClient.setDirection("123 Main St");
+        newClient.setPhone("555-1234");
+        newClient.setPassword("password123");
+
+
+        String jsonClient = objectMapper.writeValueAsString(newClient);
+
+
+        mockMvc.perform(post("/client")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(jsonClient))
+                .andExpect(status().isOk())
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+                .andExpect(content().string(org.hamcrest.Matchers.containsString("idClient")));
+    }
 
     @Test
     void shouldReturnListOfClients() throws Exception {
