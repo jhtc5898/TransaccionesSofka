@@ -19,3 +19,4 @@ http://localhost:8761/
 Puedes probar los endpoints utilizando la colección de Postman disponible en el siguiente enlace:<br>
 https://documenter.getpostman.com/view/13910567/2sAYdoGTRa
 
+![Vista previa]([assets/imagen.png](https://github.com/jhtc5898/TransaccionesSofka/blob/main/diagram.png))
