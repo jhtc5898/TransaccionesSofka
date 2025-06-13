@@ -1,4 +1,4 @@
-# TransaccionesSofka Despliegue
+#📌 TransaccionesSofka Despliegue
 
 Arquitectura Basada en Contenedores<br>
 Este proyecto utiliza una arquitectura basada en contenedores, lo que permite desplegar fácilmente los servicios mediante Docker.<br>
@@ -47,6 +47,51 @@ La plataforma implementa una arquitectura basada en contenedores, permitiendo un
 - 📚 Modelo de datos compartido a través de una librería común de entidades
 - 📃 Diseño orientado a API con documentación en **OpenAPI / Swagger**
 
+## 🧩 Arquitectura General del Sistema
+
+El sistema **TransaccionesSofka** implementa una arquitectura de microservicios con descubrimiento de servicios y comunicación asíncrona mediante mensajería.
+
+### 🔧 Servicios Principales
+
+El sistema está compuesto por **cuatro servicios principales**:
+
+- **Movimientos_Cliente** (puerto `8080`):  
+  Maneja operaciones de clientes  
+  _Referencia: `MovimientosApplication.java:7-8`_
+
+- **Movimientos_Transaccion** (puerto `8081`):  
+  Gestiona cuentas, movimientos y reportes  
+  _Referencia: `MovimientosApplication.java:7-8`_
+
+- **Movimientos_Eureka** (puerto `8761`):  
+  Servidor de registro y descubrimiento de servicios  
+  _Referencia: `MovimientosApplication.java:8-9`_
+
+- **Orquestador**:  
+  Gateway API implementado con **Spring Cloud Gateway**  
+  _Referencia: `OrquestadorApplication.java:7-8`_
+
+---
+
+## 🧱 Stack Tecnológico
+
+| Componente        | Tecnología                         | Referencia     |
+|-------------------|-------------------------------------|----------------|
+| **Framework**     | Spring Boot 2.7.3 (core), 3.4.3 (orquestador) | `pom.xml:6-8`  |
+| **Service Discovery** | Netflix Eureka                | `pom.xml:99-101` |
+| **Mensajería**    | Apache Kafka                       | `pom.xml:108-110` |
+| **Base de Datos** | PostgreSQL con JPA/Hibernate       | `pom.xml:34-37` |
+| **Documentación** | OpenAPI / Swagger                  | `pom.xml:62-65` |
+
+---
+
+## 🗃️ Entidades Compartidas
+
+Los servicios comparten el módulo **`MovimientosEntidad`**, que contiene:
+
+- Entidades JPA comunes
+- Repositorios compartidos
+---
 ## 🛠️ Tecnologías Utilizadas
 
 **TransaccionesSofka** está construido sobre la siguiente base tecnológica:
