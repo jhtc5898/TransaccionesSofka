@@ -19,4 +19,30 @@ http://localhost:8761/
 Puedes probar los endpoints utilizando la colección de Postman disponible en el siguiente enlace:<br>
 https://documenter.getpostman.com/view/13910567/2sAYdoGTRa
 
-![Logo](https://github.com/jhtc5898/TransaccionesSofka/blob/main/diagram.png)
+# TransaccionesSofka
+
+Este documento ofrece una visión general completa del sistema **TransaccionesSofka**, una plataforma de gestión de transacciones financieras basada en microservicios.
+
+## 📌 Propósito del Sistema
+
+**TransaccionesSofka** es un sistema distribuido para el procesamiento de transacciones financieras, diseñado para gestionar clientes, cuentas y movimientos financieros utilizando una arquitectura de microservicios.
+
+El sistema expone APIs REST para:
+- Gestión de clientes
+- Operaciones sobre cuentas
+- Procesamiento de transacciones
+- Reportes financieros
+
+La plataforma implementa una arquitectura basada en contenedores, permitiendo un despliegue escalable y eficiente de los servicios financieros. Incluye descubrimiento de servicios, comunicación orientada a eventos y documentación completa de APIs.
+
+---
+
+## 🧩 Arquitectura del Sistema
+
+**TransaccionesSofka** sigue un patrón de arquitectura de microservicios con las siguientes características clave:
+
+- 📦 Despliegue basado en contenedores usando **Docker Compose**
+- 🧭 Descubrimiento de servicios mediante **Eureka Server**
+- 📡 Comunicación orientada a eventos con **Apache Kafka**
+- 📚 Modelo de datos compartido a través de una librería común de entidades
+- 📃 Diseño orientado a API con documentación en **OpenAPI / Swagger**
